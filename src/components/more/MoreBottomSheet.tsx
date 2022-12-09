@@ -1,9 +1,4 @@
-import BottomSheet, {
-  BottomSheetBackdrop,
-  BottomSheetFlatList,
-  BottomSheetModal,
-  BottomSheetModalProvider,
-} from '@gorhom/bottom-sheet';
+import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet';
 import {useEffect, useMemo, useRef} from 'react';
 import {Text, View} from 'react-native';
 import styled from 'styled-components/native';
