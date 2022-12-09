@@ -1,6 +1,6 @@
 import BottomSheet from '@gorhom/bottom-sheet';
 import {useMemo, useRef} from 'react';
-import {Text, View} from 'react-native';
+import {Text} from 'react-native';
 import styled from 'styled-components/native';
 
 const MoreBottomSheet = () => {

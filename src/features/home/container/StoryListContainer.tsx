@@ -1,4 +1,3 @@
-import {storyData} from 'assets/data/storyData';
 import {StoryTypes} from 'types/commonTypes';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -11,7 +10,6 @@ import {BottomTabContext} from 'store/context/bottomTabContext';
 const Header = ({storyItems}: any) => {
   const navigation = useNavigation<StackNavigationProp<any>>();
   const showContext = useContext(Context);
-  const bottomTabContext = useContext(BottomTabContext);
 
   const handleShowStory = (id: number) => {
     showContext.addShowStory(id);

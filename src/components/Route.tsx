@@ -1,14 +1,11 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack';
-import {StatusBar, useColorScheme} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {NavigationContainer, useRoute} from '@react-navigation/native';
-import BottomTabProvider, {
-  BottomTabContext,
-} from 'store/context/bottomTabContext';
+import {NavigationContainer} from '@react-navigation/native';
+import {BottomTabContext} from 'store/context/bottomTabContext';
 import {ScreenList} from 'types/ScreenTypes';
 import HomeScreen from 'features/home/screens/HomeScreen';
 import StoryScreen from 'features/story/screens/StoryScreen';
@@ -17,7 +14,6 @@ import ShortsScreen from 'features/shorts/screens/ShortsScreen';
 import ShopScreen from 'features/shop/screens/ShopScreen';
 import MyScreen from 'features/user/screens/MyScreen';
 import styled, {css} from 'styled-components/native';
-import ContextProvider from 'store/context/context';
 
 const Stack = createStackNavigator<ScreenList>();
 const Tab = createBottomTabNavigator();

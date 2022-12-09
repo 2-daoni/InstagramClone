@@ -2,12 +2,12 @@ import {createContext, useState} from 'react';
 
 export const Context = createContext({
   ids: Array<any>([]),
+  storyIds: Array<any>([]),
+  savePostIds: Array<any>([]),
   addFavorite: (id: number) => {},
   removeFavorite: (id: number) => {},
-  storyIds: Array<any>([]),
   addShowStory: (id: number) => {},
   removeShowStory: (id: number) => {},
-  savePostIds: Array<any>([]),
   addSavePost: (id: number) => {},
   removeSavePost: (id: number) => {},
 });
@@ -45,12 +45,12 @@ const ContextProvider = ({children}: any) => {
 
   const value = {
     ids: likePostId,
+    storyIds: showStoryId,
+    savePostIds: savePostId,
     addFavorite: addFavorite,
     removeFavorite: removeFavorite,
-    storyIds: showStoryId,
     addShowStory: addShowStory,
     removeShowStory: removeShowStory,
-    savePostIds: savePostId,
     addSavePost: addSavePost,
     removeSavePost: removeSavePost,
   };
