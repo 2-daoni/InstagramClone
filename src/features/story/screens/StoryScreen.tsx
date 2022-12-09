@@ -1,6 +1,6 @@
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {useEffect} from 'react';
-import {Image, Text, View} from 'react-native';
+import {Image} from 'react-native';
 import styled from 'styled-components/native';
 
 const StoryScreen = () => {

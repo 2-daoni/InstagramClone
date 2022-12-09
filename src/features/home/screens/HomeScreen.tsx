@@ -1,17 +1,18 @@
-import {Text, TouchableOpacity, View} from 'react-native';
 import styled from 'styled-components/native';
-import Header from '../container/Header';
+import StoryListContainer from '../container/StoryListContainer';
 import PostContainer from '../container/PostContainer';
 
 const HomeScreen = ({navigation}: any) => {
   return (
     <Container>
-      <Header />
+      <StoryListContainer />
       <PostContainer />
     </Container>
   );
 };
 
-const Container = styled.View``;
+const Container = styled.View`
+  padding: 50px 0 0 0;
+`;
 
 export default HomeScreen;

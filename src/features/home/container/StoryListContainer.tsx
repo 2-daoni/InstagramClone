@@ -1,9 +1,8 @@
-import {Text} from 'react-native';
 import {storyData} from '../../../assets/data/storyData';
 import {StoryTypes} from '../../../../types/commonTypes';
-import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
+import styled from 'styled-components/native';
 
 const Header = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
@@ -31,8 +30,9 @@ const Header = () => {
 
 const Container = styled.View`
   flex-direction: row;
-  padding: 0 0 5px 0;
+  padding: 10px 0 10px 0;
   border-bottom-width: 1px;
+  border-color: #cfcfcf;
 `;
 
 const StoryItem = styled.TouchableOpacity`

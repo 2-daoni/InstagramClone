@@ -1,0 +1,2 @@
+KEY=123456789
+TOSS_PAY_FAIL_URL=https:/$()/alpha-api.sosanggong.kr/v1/payments/fail

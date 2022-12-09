@@ -1,0 +1,10 @@
+//
+//  Config.xcconfig
+//  InstagramClone
+//
+//  Created by 이다원 on 2022/12/09.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+#include? "tmp.xcconfig"
