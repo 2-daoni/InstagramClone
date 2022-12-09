@@ -1,32 +1,59 @@
-import {storyData} from '../../../assets/data/storyData';
-import {StoryTypes} from '../../../../types/commonTypes';
+import {storyData} from 'assets/data/storyData';
+import {StoryTypes} from 'types/commonTypes';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import styled from 'styled-components/native';
+import {useContext} from 'react';
+import {Context} from 'store/context/context';
+import {StyleSheet} from 'react-native';
+import {BottomTabContext} from 'store/context/bottomTabContext';
 
-const Header = () => {
+const Header = ({storyItems}: any) => {
   const navigation = useNavigation<StackNavigationProp<any>>();
+  const showContext = useContext(Context);
+  const bottomTabContext = useContext(BottomTabContext);
+
+  const handleShowStory = (id: number) => {
+    showContext.addShowStory(id);
+  };
 
   return (
     <Container>
-      {storyData.map((item: StoryTypes) => (
+      {storyItems.map((item: StoryTypes) => (
         <StoryItem
           key={item.id}
-          onPress={() =>
+          onPress={() => {
             navigation.navigate('StoryScreen', {
               id: item.id,
               userInfo: item.userInfo,
               storyImage: item.storyImage,
-            })
-          }>
+            });
+            handleShowStory(item.id);
+          }}>
           {/* <StoryImage source={{uri: item.userInfo.profileImage}} /> */}
-          <StoryImage source={require('../../../assets/images/dog.jpeg')} />
+          <StoryImage
+            style={
+              showContext.storyIds.includes(item.id)
+                ? styles.isShow
+                : styles.isNotShow
+            }
+            source={require('assets/images/dog.jpeg')}
+          />
           <UserName>{item.userInfo.name}</UserName>
         </StoryItem>
       ))}
     </Container>
   );
 };
+
+const styles = StyleSheet.create({
+  isShow: {
+    borderColor: '#d9d9d9',
+  },
+  isNotShow: {
+    borderColor: 'red',
+  },
+});
 
 const Container = styled.View`
   flex-direction: row;
@@ -45,6 +72,7 @@ const StoryImage = styled.Image`
   width: 50px;
   height: 50px;
   border-radius: 25px;
+  border-width: 2px;
 `;
 
 const UserName = styled.Text`

@@ -1,12 +1,27 @@
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
-import {useEffect} from 'react';
+import {useContext, useEffect} from 'react';
 import {Image} from 'react-native';
+import {BottomTabContext} from 'store/context/bottomTabContext';
 import styled from 'styled-components/native';
 
 const StoryScreen = () => {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<any>>();
   const storyInfo = route.params;
+  const bottomTabContext = useContext(BottomTabContext);
+
+  useEffect(() => {
+    const onFocus = navigation.addListener('focus', () => {
+      bottomTabContext.setIsBottomShow(false);
+    });
+    const onBlur = navigation.addListener('blur', () => {
+      bottomTabContext.setIsBottomShow(true);
+    });
+    return () => {
+      onFocus();
+      onBlur();
+    };
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -16,7 +31,7 @@ const StoryScreen = () => {
 
   return (
     <>
-      <Container source={require('../../../assets/images/tree.jpg')}>
+      <Container source={require('assets/images/tree.jpg')}>
         <StoryHeader>
           <Image
             style={{width: 30, height: 30}}
@@ -31,7 +46,7 @@ const StoryScreen = () => {
 
 const Container = styled.ImageBackground`
   flex: 1;
-  background-image: url('../../../assets/images/dog.jpeg');
+  background-image: url('assets/images/dog.jpeg');
   background-size: cover;
 `;
 

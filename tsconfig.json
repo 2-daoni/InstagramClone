@@ -12,7 +12,7 @@
     "strict": true,
     "target": "esnext",
     "types": ["jest", "@types/styled-components-react-native"],
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
       "@/*": ["src/*"]
     }
