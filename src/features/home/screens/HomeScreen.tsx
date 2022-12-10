@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import StoryListContainer from '../container/StoryListContainer';
-import PostContainer from '../container/PostContainer';
+import PostContainer from '../../post/container/PostContainer';
 import {storyData} from 'assets/data/storyData';
 
 const HomeScreen = ({navigation}: any) => {

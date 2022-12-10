@@ -1,7 +1,9 @@
-import {Text} from 'react-native';
+import styled from 'styled-components/native';
 
 const MyScreen = () => {
-  return <Text></Text>;
+  return <Container></Container>;
 };
+
+const Container = styled.View``;
 
 export default MyScreen;

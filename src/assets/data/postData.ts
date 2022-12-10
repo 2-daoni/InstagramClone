@@ -9,8 +9,26 @@ export const postData: Array<PostTypes> = [
       name: '3da1',
     },
     postImage: 'assets/images/dog.jpeg',
-    postContent: '게시글 작성',
+    postContent: '게시글 작성이에요 트리가 참 이쁘지요 보고싶네요',
     replyNumber: 10,
+    reply: [
+      {
+        replyor: {
+          id: 1,
+          profileImage: 'assets/images/dog.jpeg',
+          name: 'daoni',
+        },
+        content: '트리이',
+      },
+      {
+        replyor: {
+          id: 2,
+          profileImage: 'assets/images/tree.jpg',
+          name: '2da111111',
+        },
+        content: '댓글이야요',
+      },
+    ],
     likeNumber: 230,
   },
   {

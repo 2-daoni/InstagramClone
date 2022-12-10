@@ -7,11 +7,11 @@
  */
 import React from 'react';
 import {StatusBar, useColorScheme} from 'react-native';
-import styled, {css} from 'styled-components/native';
 import BottomTabProvider from 'store/context/bottomTabContext';
 import Route from 'components/Route';
 import ContextProvider from './src/store/context/context';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {BottomSheetProvider} from '@gorhom/bottom-sheet/lib/typescript/contexts';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -29,19 +29,5 @@ const App = () => {
     </>
   );
 };
-
-const IconStyle = styled.Image<{
-  width?: string;
-  height?: string;
-  profile?: boolean;
-}>`
-  width: ${props => props.width || '20px'};
-  height: ${props => props.height || '20px'};
-  ${props =>
-    props.profile &&
-    css`
-      border-radius: 15px;
-    `}
-`;
 
 export default App;

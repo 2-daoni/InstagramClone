@@ -10,6 +10,11 @@ export type StoryTypes = {
   storyImage: string;
 };
 
+export type ReplyTypes = {
+  replyor: UserTypes;
+  content: string;
+};
+
 export type PostTypes = {
   id: number;
   userInfo: UserTypes;
@@ -17,4 +22,5 @@ export type PostTypes = {
   replyNumber: number;
   likeNumber: number;
   postContent: string;
+  reply?: Array<ReplyTypes>;
 };
