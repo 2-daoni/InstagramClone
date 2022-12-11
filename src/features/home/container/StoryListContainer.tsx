@@ -4,8 +4,8 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import styled from 'styled-components/native';
 import {useContext} from 'react';
 import {Context} from 'store/context/context';
-import {StyleSheet} from 'react-native';
-import {BottomTabContext} from 'store/context/bottomTabContext';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 const Header = ({storyItems}: any) => {
   const navigation = useNavigation<StackNavigationProp<any>>();
@@ -28,7 +28,6 @@ const Header = ({storyItems}: any) => {
             });
             handleShowStory(item.id);
           }}>
-          {/* <StoryImage source={{uri: item.userInfo.profileImage}} /> */}
           <StoryImage
             style={
               showContext.storyIds.includes(item.id)
@@ -52,6 +51,21 @@ const styles = StyleSheet.create({
     borderColor: 'red',
   },
 });
+
+const RainbowImage = styled.View`
+  width: 70px;
+  height: 70px;
+  border-radius: 35px;
+  overflow: hidden;
+  padding: 3px;
+  background-color: linear-gradient(
+    45deg,
+    rgb(255, 230, 0),
+    rgb(255, 0, 128) 80%
+  );
+  align-items: center;
+  justify-content: center;
+`;
 
 const Container = styled.View`
   flex-direction: row;

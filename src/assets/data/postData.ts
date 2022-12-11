@@ -13,6 +13,7 @@ export const postData: Array<PostTypes> = [
     replyNumber: 10,
     reply: [
       {
+        id: 1,
         replyor: {
           id: 1,
           profileImage: 'assets/images/dog.jpeg',
@@ -21,6 +22,7 @@ export const postData: Array<PostTypes> = [
         content: '트리이',
       },
       {
+        id: 2,
         replyor: {
           id: 2,
           profileImage: 'assets/images/tree.jpg',

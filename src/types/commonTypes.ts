@@ -11,6 +11,7 @@ export type StoryTypes = {
 };
 
 export type ReplyTypes = {
+  id: number;
   replyor: UserTypes;
   content: string;
 };

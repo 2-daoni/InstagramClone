@@ -1,9 +1,26 @@
+import {useContext, useEffect, useState} from 'react';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
-import {postData} from 'assets/data/postData';
-import {useContext, useEffect} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import {BottomTabContext} from 'store/context/bottomTabContext';
+import {ReplyTypes} from 'types/commonTypes';
+import {postData} from 'assets/data/postData';
+import {Context} from 'store/context/context';
 import styled from 'styled-components/native';
+
+const emoji = [
+  {id: 1, text: '🤩'},
+  {id: 2, text: '✌🏻'},
+  {id: 3, text: '❤️'},
+  {id: 4, text: '🫠'},
+  {id: 5, text: '😩'},
+  {id: 6, text: '🫣'},
+  {id: 7, text: '🫡'},
+  {id: 8, text: '☺️'},
+  {id: 9, text: '😘'},
+  {id: 10, text: '😊'},
+  {id: 11, text: '😭'},
+];
 
 const PostDetailScreen = () => {
   const navigation = useNavigation();
@@ -11,6 +28,21 @@ const PostDetailScreen = () => {
   const postInfo = route.params;
   const currentPost = postData.find(item => item.id === postInfo?.id);
   const bottomTabContext = useContext(BottomTabContext);
+  const context = useContext(Context);
+  const [value, setValue] = useState<string>('');
+
+  const handlePressHeart = (item: ReplyTypes) => {
+    const isLike = context.likeReplyId.includes(item.id);
+    if (isLike) {
+      context.removeLikeReply(item.id);
+    } else {
+      context.addLikeReply(item.id);
+    }
+  };
+
+  const handlePressEmoji = (text: string) => {
+    setValue(value.concat(text));
+  };
 
   useEffect(() => {
     const onFocus = navigation.addListener('focus', () => {
@@ -26,7 +58,10 @@ const PostDetailScreen = () => {
   }, []);
 
   return (
-    <Container>
+    <Container
+      behavior={'padding'}
+      style={styles.avoid}
+      keyboardVerticalOffset={70}>
       <View>
         <PostInfoContainer>
           <ImageStyle source={require('assets/images/dog.jpeg')} />
@@ -42,30 +77,55 @@ const PostDetailScreen = () => {
               </UserInfo>
               <Text>{item.content}</Text>
             </ReplyContentContainer>
-            <HeartImage
-              source={require('assets/images/heart.png')}
-              style={{tintColor: 'gray'}}
-            />
+            <HeartContainer
+              onPress={() => {
+                handlePressHeart(item);
+              }}>
+              <HeartImage
+                source={
+                  context.likeReplyId.includes(item.id)
+                    ? require('assets/images/heart-2.png')
+                    : require('assets/images/heart.png')
+                }
+                style={
+                  context.likeReplyId.includes(item.id)
+                    ? {tintColor: 'red'}
+                    : {tintColor: 'gray'}
+                }
+              />
+            </HeartContainer>
           </ReplyContainer>
         ))}
       </View>
       <TextInputContainer>
-        <Text style={{fontSize: 25}}>❤️🤩✌🏻🫠😩🫣🫡☺️😘😊😭</Text>
+        <EmojiContainer>
+          {emoji.map(item => (
+            <Text
+              key={item.id}
+              style={{fontSize: 30}}
+              onPress={() => handlePressEmoji(item.text)}>
+              {item.text}
+            </Text>
+          ))}
+        </EmojiContainer>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TextInput
+            value={value}
             placeholder={'_2da1_(으)로 댓글 달기..'}
-            onChangeText={() => {
-              console.log('kklkj');
+            onChangeText={e => {
+              setValue(value.concat(e));
             }}
             style={{...styles.textIput, flex: 8}}
           />
-          <Text
-            style={{
-              color: '#144da8',
-              flex: 1,
-            }}>
-            게시
-          </Text>
+          <TouchableOpacity>
+            <Text
+              style={{
+                color: '#144da8',
+                marginRight: 10,
+              }}>
+              게시
+            </Text>
+          </TouchableOpacity>
         </View>
       </TextInputContainer>
     </Container>
@@ -80,9 +140,12 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
   },
+  avoid: {
+    flex: 1,
+  },
 });
 
-const Container = styled.View`
+const Container = styled.KeyboardAvoidingView`
   flex: 1;
   justify-content: space-between;
 `;
@@ -105,16 +168,20 @@ const ReplyContainer = styled.View`
   flex-direction: row;
   padding: 10px 10px 10px 10px;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const UserInfo = styled.View`
   flex-direction: row;
+  align-items: center;
 `;
 
 const NameText = styled.Text`
   font-weight: bold;
   margin: 0 5px 0 0;
 `;
+
+const HeartContainer = styled.TouchableOpacity``;
 
 const HeartImage = styled.Image`
   width: 15px;
@@ -123,12 +190,19 @@ const HeartImage = styled.Image`
 
 const ReplyContentContainer = styled.View`
   flex-direction: row;
+  align-items: center;
 `;
 
 const TextInputContainer = styled.View`
   border-top-width: 1px;
   border-color: #d9d9d9;
   padding: 0 0 30px 0;
+`;
+
+const EmojiContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 10px 0 10px;
 `;
 
 export default PostDetailScreen;
