@@ -13,6 +13,20 @@ import PostBottom from 'features/home/component/PostBottom';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
+const emoji = [
+  {id: 1, text: '🤩'},
+  {id: 2, text: '✌🏻'},
+  {id: 3, text: '❤️'},
+  {id: 4, text: '🫠'},
+  {id: 5, text: '😩'},
+  {id: 6, text: '🫣'},
+  {id: 7, text: '🫡'},
+  {id: 8, text: '☺️'},
+  {id: 9, text: '😘'},
+  {id: 10, text: '😊'},
+  {id: 11, text: '😭'},
+];
+
 const PostDetailScreen = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
   const route = useRoute();
@@ -149,6 +163,12 @@ const CustomText = styled.Text<{fontColor?: string; fontWeight?: 'string'}>`
 
 const BoldText = styled.Text`
   font-weight: bold;
+`;
+
+const EmojiContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 10px 0 10px;
 `;
 
 export default PostDetailScreen;
