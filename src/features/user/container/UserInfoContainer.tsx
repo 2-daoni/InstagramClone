@@ -1,7 +1,10 @@
+import {useNavigation} from '@react-navigation/native';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import styled from 'styled-components/native';
 
 const UserInfoContainer = () => {
+  const navigation = useNavigation();
+
   return (
     <View>
       <Container>
@@ -14,7 +17,10 @@ const UserInfoContainer = () => {
             <CustomText fontWeight="bold">18</CustomText>
             <CustomText>게시물</CustomText>
           </UserFollowerInfo>
-          <UserFollowerInfo>
+          <UserFollowerInfo
+            onPress={() => {
+              navigation.navigate('UserFollowListScreen', {});
+            }}>
             <CustomText fontWeight="bold">162</CustomText>
             <CustomText>팔로워</CustomText>
           </UserFollowerInfo>
@@ -43,6 +49,7 @@ const Container = styled.View`
   flex-direction: row;
   align-items: center;
   margin: 0 0 20px 0;
+  padding: 0 10px 0 10px;
 `;
 
 const UserProfileImage = styled.TouchableOpacity`
@@ -72,7 +79,7 @@ const UserFollowerInfoContianer = styled.View`
   flex: 1;
 `;
 
-const UserFollowerInfo = styled.View`
+const UserFollowerInfo = styled.TouchableOpacity`
   align-items: center;
 `;
 

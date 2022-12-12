@@ -9,7 +9,7 @@ export const postData: Array<PostTypes> = [
       name: '3da1',
     },
     postImage: 'assets/images/dog.jpeg',
-    postContent: '게시글 작성이에요 트리가 참 이쁘지요 보고싶네요',
+    postContent: '게시글 작성이에요 트리가 참 이쁘지요 호호',
     replyNumber: 10,
     reply: [
       {
