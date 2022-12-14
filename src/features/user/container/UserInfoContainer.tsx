@@ -1,21 +1,29 @@
 import {useNavigation} from '@react-navigation/native';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Image, Text, View} from 'react-native';
 import styled, {css} from 'styled-components/native';
 import {UserTypes} from 'types/commonTypes';
 
 interface Props {
-  isMe?: boolean;
   userInfo: UserTypes | undefined;
 }
 
-const UserInfoContainer = ({isMe, userInfo}: Props) => {
+const UserInfoContainer = ({userInfo}: Props) => {
   const navigation = useNavigation<any>();
   const [follow, setFollow] = useState<boolean>(false);
+  const [isMe, setIsMe] = useState<boolean>(false);
 
   const handlePressFollow = () => {
     setFollow(!follow);
   };
+
+  useEffect(() => {
+    if (userInfo?.id === 1) {
+      setIsMe(true);
+    } else {
+      setIsMe(false);
+    }
+  }, [userInfo]);
 
   return (
     <View>
