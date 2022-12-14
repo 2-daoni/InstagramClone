@@ -133,7 +133,7 @@ const MyScreen = () => {
 
 const Container = styled.View`
   flex: 1;
-  padding: 80px 0 50px 0;
+  padding: 80px 0 0 0;
 `;
 
 const Header = styled.View`

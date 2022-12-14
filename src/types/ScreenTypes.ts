@@ -4,5 +4,6 @@ export type ScreenList = {
   MyScreen: any;
   StoryScreen: any;
   PostDetailScreen: any;
+  PostReplyDetailScreen: any;
   UserFollowListScreen: any;
 };

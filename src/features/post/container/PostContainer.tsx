@@ -1,50 +1,46 @@
 import {postData} from 'assets/data/postData';
-import {FlatList, TouchableOpacity} from 'react-native';
-import styled from 'styled-components/native';
+import {FlatList} from 'react-native';
 import {PostTypes} from 'types/commonTypes';
-import PostBottom from '../../home/component/PostBottom';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
-import {useMemo, useRef} from 'react';
-import MoreBottomContainer from '../../home/container/MoreBottomContainer';
+import {useMemo, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
+import MoreBottomContainer from '../../home/container/MoreBottomContainer';
+import PostHeader from '../component/PostHeader';
+import PostBottom from '../../home/component/PostBottom';
+import styled from 'styled-components/native';
 
 const PostContainer = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const navigation = useNavigation<StackNavigationProp<any>>();
-  const snapPoints = useMemo(() => ['25%', '75%'], []);
+  const snapPoints = useMemo(() => ['15%', '75%'], []);
 
-  const handleShowMore = () => {
-    bottomSheetRef.current?.snapToIndex(1);
+  const [likeNum, setLikeNum] = useState<number>(0);
+
+  const handleIsLike = (like: boolean) => {
+    if (like) {
+      setLikeNum(1);
+    } else {
+      setLikeNum(0);
+    }
   };
 
   const renderItem = ({item}: {item: PostTypes}) => {
     const handlePostDetail = () => {
-      navigation.navigate('PostDetailScreen', {id: item.id});
+      navigation.navigate('PostReplyDetailScreen', {id: item.id});
     };
 
     return (
       <>
         <Container>
-          <PostHeader>
-            <ProfileContainer>
-              <ProfileImage source={require('assets/images/dog.jpeg')} />
-              <CustomText>{item.userInfo.name}</CustomText>
-            </ProfileContainer>
-            <TouchableOpacity
-              onPress={() => {
-                handleShowMore();
-              }}>
-              <ImageStyle source={require('assets/images/more.png')} />
-            </TouchableOpacity>
-          </PostHeader>
+          <PostHeader items={item} bottomSheetRef={bottomSheetRef} />
           <PostImage source={require('assets/images/tree.jpg')} />
-          <PostBottom item={item} />
+          <PostBottom item={item} handleIsLike={handleIsLike} />
           <PostContent>
-            <CustomText>좋아요 {item.likeNumber}개</CustomText>
+            <CustomText>좋아요 {item.likeNumber + likeNum}개</CustomText>
             <CustomText numberOfLines={1}>
               <BoldText>{item.userInfo.name}</BoldText> {item.postContent}
             </CustomText>
@@ -116,25 +112,6 @@ const ListContainer = styled.View`
   margin-bottom: 100px;
 `;
 
-const ProfileImage = styled.Image`
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  margin: 0 10px 0 0;
-`;
-
-const ProfileContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-`;
-
-const PostHeader = styled.View`
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 15px 10px 10px;
-`;
-
 const BoldText = styled.Text`
   font-weight: bold;
 `;
@@ -152,11 +129,6 @@ const PostImage = styled.Image`
 
 const PostContent = styled.View`
   margin: 0 10px 0 10px;
-`;
-
-const ImageStyle = styled.Image`
-  width: 20px;
-  height: 20px;
 `;
 
 export default PostContainer;

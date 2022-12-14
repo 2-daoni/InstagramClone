@@ -1,14 +1,31 @@
 import {useNavigation} from '@react-navigation/native';
 import {Image, Text, View} from 'react-native';
 import styled from 'styled-components/native';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {useState} from 'react';
 
 const UserInfoContainer = () => {
   const navigation = useNavigation<any>();
+  const [image, setImage] = useState<any>();
+
+  const handlePickImages = async () => {
+    await launchImageLibrary({
+      mediaType: 'mixed',
+      quality: 1,
+      selectionLimit: 10,
+    })
+      .then(async images => {
+        setImage(images.assets);
+      })
+      .catch(error => {
+        console.log('hhh', error);
+      });
+  };
 
   return (
     <View>
       <Container>
-        <UserProfileImage>
+        <UserProfileImage onPress={handlePickImages}>
           <ProfileImage source={require('assets/images/dog.jpeg')} />
           <PlusImage source={require('assets/images/plus.png')} />
         </UserProfileImage>
@@ -67,7 +84,7 @@ const PlusImage = styled.Image`
   height: 30px;
   position: relative;
   right: 20px;
-  top: 60;
+  top: 60px;
   border-radius: 15px;
   border-width: 2px;
   border-color: #fff;

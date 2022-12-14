@@ -1,3 +1,5 @@
+import {ImageSourcePropType} from 'react-native';
+
 export type UserTypes = {
   id: number;
   name: string;
@@ -19,9 +21,10 @@ export type ReplyTypes = {
 export type PostTypes = {
   id: number;
   userInfo: UserTypes;
-  postImage: string;
+  postImage: ImageSourcePropType;
   replyNumber: number;
   likeNumber: number;
   postContent: string;
   reply?: Array<ReplyTypes>;
+  date: string;
 };

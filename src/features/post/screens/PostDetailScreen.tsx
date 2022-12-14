@@ -1,208 +1,154 @@
-import {useContext, useEffect, useState} from 'react';
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
-import {StyleSheet, Text, TextInput, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {BottomTabContext} from 'store/context/bottomTabContext';
-import {ReplyTypes} from 'types/commonTypes';
 import {postData} from 'assets/data/postData';
-import {Context} from 'store/context/context';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {Dimensions, FlatList, Text, TouchableOpacity} from 'react-native';
+import {PostTypes, ReplyTypes} from 'types/commonTypes';
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetView,
+} from '@gorhom/bottom-sheet';
+import MoreBottomContainer from 'features/home/container/MoreBottomContainer';
+import PostHeader from '../component/PostHeader';
 import styled from 'styled-components/native';
-
-const emoji = [
-  {id: 1, text: '🤩'},
-  {id: 2, text: '✌🏻'},
-  {id: 3, text: '❤️'},
-  {id: 4, text: '🫠'},
-  {id: 5, text: '😩'},
-  {id: 6, text: '🫣'},
-  {id: 7, text: '🫡'},
-  {id: 8, text: '☺️'},
-  {id: 9, text: '😘'},
-  {id: 10, text: '😊'},
-  {id: 11, text: '😭'},
-];
+import PostBottom from 'features/home/component/PostBottom';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 const PostDetailScreen = () => {
-  const navigation = useNavigation();
-  const route = useRoute<RouteProp<any>>();
-  const postInfo = route.params;
-  const currentPost = postData.find(item => item.id === postInfo?.id);
-  const bottomTabContext = useContext(BottomTabContext);
-  const context = useContext(Context);
-  const [value, setValue] = useState<string>('');
+  const navigation = useNavigation<StackNavigationProp<any>>();
+  const route = useRoute();
+  const windowWidth = Dimensions.get('window').width;
+  const [likeNum, setLikeNum] = useState<number>(0);
 
-  const handlePressHeart = (item: ReplyTypes) => {
-    const isLike = context.likeReplyId.includes(item.id);
-    if (isLike) {
-      context.removeLikeReply(item.id);
+  const keyExtractor = useCallback(
+    (item: any, index: number) => index.toString(),
+    [],
+  );
+
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ['15%', '75%'], []);
+
+  const handleIsLike = (like: boolean) => {
+    if (like) {
+      setLikeNum(1);
     } else {
-      context.addLikeReply(item.id);
+      setLikeNum(0);
     }
   };
 
-  const handlePressEmoji = (text: string) => {
-    setValue(value.concat(text));
+  const handleMoreReply = (item: PostTypes) => {
+    navigation.navigate('PostReplyDetailScreen', {id: item.id});
   };
 
-  useEffect(() => {
-    const onFocus = navigation.addListener('focus', () => {
-      bottomTabContext.setIsBottomShow(false);
-    });
-    const onBlur = navigation.addListener('blur', () => {
-      bottomTabContext.setIsBottomShow(true);
-    });
-    return () => {
-      onFocus();
-      onBlur();
-    };
-  }, []);
+  if (route?.params?.type === 'video') {
+    return <Text style={{textAlign: 'center'}}>비디오는 작업중입니닷.</Text>;
+  }
+
+  const renderItem = ({item}: {item: PostTypes}) => {
+    return (
+      <ItemContainer>
+        <PostHeader items={item} bottomSheetRef={bottomSheetRef} />
+        <PostImage source={item.postImage} windowWidth={windowWidth} />
+        <PostBottom item={item} handleIsLike={handleIsLike} />
+        <ContentContainer>
+          <CustomText>좋아요 {item.likeNumber + likeNum}개</CustomText>
+          <CustomText numberOfLines={1}>
+            <BoldText>{item.userInfo.name}</BoldText> {item.postContent}
+          </CustomText>
+          {typeof item.reply !== 'undefined' && (
+            <>
+              <TouchableOpacity
+                onPress={() => {
+                  handleMoreReply(item);
+                }}>
+                <CustomText fontColor="gray">
+                  댓글 {item.reply.length}개 모두 보기
+                </CustomText>
+              </TouchableOpacity>
+              {item.reply.map((item: ReplyTypes) => (
+                <CustomText key={item.id}>
+                  <BoldText>{item.replyor.name}</BoldText>
+                  {item.content}
+                </CustomText>
+              ))}
+            </>
+          )}
+          <CustomText fontColor="gray">{item.date}</CustomText>
+        </ContentContainer>
+      </ItemContainer>
+    );
+  };
 
   return (
-    <Container
-      behavior={'padding'}
-      style={styles.avoid}
-      keyboardVerticalOffset={70}>
-      <View>
-        <PostInfoContainer>
-          <ImageStyle source={require('assets/images/dog.jpeg')} />
-          <NameText>{currentPost?.userInfo.name}</NameText>
-          <Text>{currentPost?.postContent}</Text>
-        </PostInfoContainer>
-        {currentPost?.reply?.map((item, index) => (
-          <ReplyContainer key={index}>
-            <ReplyContentContainer>
-              <UserInfo>
-                <ImageStyle source={require('assets/images/dog.jpeg')} />
-                <NameText>{item.replyor.name}</NameText>
-              </UserInfo>
-              <Text>{item.content}</Text>
-            </ReplyContentContainer>
-            <HeartContainer
-              onPress={() => {
-                handlePressHeart(item);
-              }}>
-              <HeartImage
-                source={
-                  context.likeReplyId.includes(item.id)
-                    ? require('assets/images/heart-2.png')
-                    : require('assets/images/heart.png')
-                }
-                style={
-                  context.likeReplyId.includes(item.id)
-                    ? {tintColor: 'red'}
-                    : {tintColor: 'gray'}
-                }
-              />
-            </HeartContainer>
-          </ReplyContainer>
-        ))}
-      </View>
-      <TextInputContainer>
-        <EmojiContainer>
-          {emoji.map(item => (
-            <Text
-              key={item.id}
-              style={{fontSize: 30}}
-              onPress={() => handlePressEmoji(item.text)}>
-              {item.text}
-            </Text>
-          ))}
-        </EmojiContainer>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <TextInput
-            value={value}
-            placeholder={'_2da1_(으)로 댓글 달기..'}
-            onChangeText={e => {
-              setValue(value.concat(e));
-            }}
-            style={{...styles.textIput, flex: 8}}
-          />
-          <TouchableOpacity>
-            <Text
+    <Container>
+      <FlatList
+        data={postData}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+      />
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={-1}
+        enablePanDownToClose
+        snapPoints={snapPoints}
+        onClose={() => bottomSheetRef.current?.close()}
+        backdropComponent={backdropProps => {
+          return (
+            <BottomSheetBackdrop
+              {...backdropProps}
               style={{
-                color: '#144da8',
-                marginRight: 10,
-              }}>
-              게시
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </TextInputContainer>
+                flex: 1,
+                height: '100%',
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                bottom: 0,
+              }}
+              onPress={() => {
+                bottomSheetRef.current?.close();
+              }}
+              appearsOnIndex={1}
+              disappearsOnIndex={0}
+            />
+          );
+        }}>
+        <BottomSheetView
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingTop: 20,
+          }}>
+          <MoreBottomContainer />
+        </BottomSheetView>
+      </BottomSheet>
     </Container>
   );
 };
 
-const styles = StyleSheet.create({
-  textIput: {
-    borderWidth: 1,
-    borderColor: '#d9d9d9',
-    borderRadius: 15,
-    padding: 10,
-    margin: 10,
-  },
-  avoid: {
-    flex: 1,
-  },
-});
-
-const Container = styled.KeyboardAvoidingView`
+const Container = styled.View`
   flex: 1;
-  justify-content: space-between;
 `;
 
-const ImageStyle = styled.Image`
-  width: 30px;
-  height: 30px;
-  border-radius: 15px;
-  margin: 0 10px 0 0;
+const ContentContainer = styled.View`
+  padding: 0 10px 0 10px;
 `;
 
-const PostInfoContainer = styled.View`
-  flex-direction: row;
-  border-bottom-width: 1px;
-  border-bottom-color: #d9d9d9;
-  padding: 15px 10px 15px 10px;
+const ItemContainer = styled.View`
+  margin-bottom: 30px;
 `;
 
-const ReplyContainer = styled.View`
-  flex-direction: row;
-  padding: 10px 10px 10px 10px;
-  justify-content: space-between;
-  align-items: center;
+const PostImage = styled.Image<{windowWidth: number}>`
+  width: 100%;
+  height: ${props => props.windowWidth}px;
 `;
 
-const UserInfo = styled.View`
-  flex-direction: row;
-  align-items: center;
+const CustomText = styled.Text<{fontColor?: string; fontWeight?: 'string'}>`
+  color: ${props => props.fontColor || '#111'};
+  font-weight: ${props => props.fontWeight || '400'};
+  margin: 2px 0 2px 0;
 `;
 
-const NameText = styled.Text`
+const BoldText = styled.Text`
   font-weight: bold;
-  margin: 0 5px 0 0;
-`;
-
-const HeartContainer = styled.TouchableOpacity``;
-
-const HeartImage = styled.Image`
-  width: 15px;
-  height: 15px;
-`;
-
-const ReplyContentContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-`;
-
-const TextInputContainer = styled.View`
-  border-top-width: 1px;
-  border-color: #d9d9d9;
-  padding: 0 0 30px 0;
-`;
-
-const EmojiContainer = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  margin: 0 10px 0 10px;
 `;
 
 export default PostDetailScreen;

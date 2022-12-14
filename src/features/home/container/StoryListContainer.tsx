@@ -4,8 +4,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import styled from 'styled-components/native';
 import {useContext} from 'react';
 import {Context} from 'store/context/context';
-import {Image, StyleSheet, Text, View} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import {StyleSheet} from 'react-native';
 
 const Header = ({storyItems}: any) => {
   const navigation = useNavigation<StackNavigationProp<any>>();

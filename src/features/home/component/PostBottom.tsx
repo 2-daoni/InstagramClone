@@ -2,12 +2,13 @@ import {useContext} from 'react';
 import {Context} from 'store/context/context';
 import styled from 'styled-components/native';
 
-const PostBottom = ({item, route}: any) => {
+const PostBottom = ({item, handleIsLike, route}: any) => {
   const context = useContext(Context);
   const isLike = context.ids.includes(item.id);
   const isSave = context.savePostIds.includes(item.id);
 
   const handlePressLike = () => {
+    handleIsLike(!isLike);
     if (isLike) {
       context.removeFavorite(item.id);
     } else {

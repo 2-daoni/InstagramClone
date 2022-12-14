@@ -53,6 +53,8 @@
 	<false/>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
     <false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>게시물 이미지 등록에 사용됩니다.</string>
     <key>UIAppFonts</key>
     <array>
         <string>MaterialIcons.ttf</string>

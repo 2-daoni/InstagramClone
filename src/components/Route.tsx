@@ -14,8 +14,9 @@ import ShortsScreen from 'features/shorts/screens/ShortsScreen';
 import ShopScreen from 'features/shop/screens/ShopScreen';
 import MyScreen from 'features/user/screens/MyScreen';
 import styled, {css} from 'styled-components/native';
-import PostDetailScreen from 'features/post/screens/PostDetailScreen';
 import UserFollowListScreen from 'features/user/screens/UserFollowListScreen';
+import PostReplyDetailScreen from 'features/post/screens/PostReplyDetailScreen';
+import PostDetailScreen from 'features/post/screens/PostDetailScreen';
 
 const Stack = createStackNavigator<ScreenList>();
 const Tab = createBottomTabNavigator();
@@ -42,8 +43,8 @@ const Screens = () => {
         }}
       />
       <Stack.Screen
-        name="PostDetailScreen"
-        component={PostDetailScreen}
+        name="PostReplyDetailScreen"
+        component={PostReplyDetailScreen}
         options={{
           headerTitle: '댓글',
           headerBackTitleVisible: false,
@@ -59,13 +60,21 @@ const Screens = () => {
           headerTintColor: '#111',
         }}
       />
+      <Stack.Screen
+        name="PostDetailScreen"
+        component={PostDetailScreen}
+        options={{
+          headerTitle: '게시글',
+          headerBackTitleVisible: false,
+          headerTintColor: '#111',
+        }}
+      />
     </Stack.Navigator>
   );
 };
 
 const Route = () => {
   const bottomTabContext = useContext(BottomTabContext);
-
   return (
     <NavigationContainer>
       <Tab.Navigator

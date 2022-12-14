@@ -1,4 +1,4 @@
-import {imagePath} from 'imgae';
+import {imagePath} from 'image';
 import {Text} from 'react-native';
 import styled from 'styled-components/native';
 
@@ -65,12 +65,12 @@ const SmallBtnContainer = styled.View`
 
 const BtnContainer = styled.View`
   margin: 10px 10px 10px 10px;
-  background-color: #eeeeee;
+  background-color: #d9d9d9;
   border-radius: 10px;
 `;
 
 const SmallBtn = styled.TouchableOpacity`
-  background-color: #eeeeee;
+  background-color: #d9d9d9;
   padding: 15px 10px 15px 10px;
   margin: 0 10px 0 10px;
   width: 70px;
