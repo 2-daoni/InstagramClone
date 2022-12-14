@@ -17,6 +17,7 @@ import styled, {css} from 'styled-components/native';
 import UserFollowListScreen from 'features/user/screens/UserFollowListScreen';
 import PostReplyDetailScreen from 'features/post/screens/PostReplyDetailScreen';
 import PostDetailScreen from 'features/post/screens/PostDetailScreen';
+import UserScreen from 'features/user/screens/UserScreen';
 
 const Stack = createStackNavigator<ScreenList>();
 const Tab = createBottomTabNavigator();
@@ -65,6 +66,15 @@ const Screens = () => {
         component={PostDetailScreen}
         options={{
           headerTitle: '게시글',
+          headerBackTitleVisible: false,
+          headerTintColor: '#111',
+        }}
+      />
+      <Stack.Screen
+        name="UserScreen"
+        component={UserScreen}
+        options={{
+          headerTitle: '',
           headerBackTitleVisible: false,
           headerTintColor: '#111',
         }}

@@ -1,3 +1,5 @@
+import {useNavigation} from '@react-navigation/core';
+import {StackNavigationProp} from '@react-navigation/stack';
 import {TouchableOpacity} from 'react-native';
 import styled from 'styled-components/native';
 import {PostTypes} from 'types/commonTypes';
@@ -9,15 +11,23 @@ const PostHeader = ({
   items: PostTypes;
   bottomSheetRef: any;
 }) => {
+  const navigation = useNavigation<StackNavigationProp<any>>();
   const handleShowMore = () => {
     bottomSheetRef.current?.snapToIndex(1);
+  };
+
+  const handlePressProfile = () => {
+    navigation.navigate('UserScreen', {
+      id: items.userInfo.id,
+      userInfo: items.userInfo,
+    });
   };
 
   return (
     <>
       <PostHeaderContainer>
-        <ProfileContainer>
-          <ProfileImage source={require('assets/images/dog.jpeg')} />
+        <ProfileContainer onPress={handlePressProfile}>
+          <ProfileImage source={items.userInfo.profileImage} />
           <CustomText>{items?.userInfo?.name}</CustomText>
         </ProfileContainer>
         <TouchableOpacity
@@ -38,7 +48,7 @@ const PostHeaderContainer = styled.View`
   padding: 10px 15px 10px 10px;
 `;
 
-const ProfileContainer = styled.View`
+const ProfileContainer = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
 `;

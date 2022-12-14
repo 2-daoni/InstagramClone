@@ -1,62 +1,85 @@
 import {useNavigation} from '@react-navigation/native';
-import {Image, Text, View} from 'react-native';
-import styled from 'styled-components/native';
-import {launchImageLibrary} from 'react-native-image-picker';
 import {useState} from 'react';
+import {Image, Text, View} from 'react-native';
+import styled, {css} from 'styled-components/native';
+import {UserTypes} from 'types/commonTypes';
 
-const UserInfoContainer = () => {
+interface Props {
+  isMe?: boolean;
+  userInfo: UserTypes | undefined;
+}
+
+const UserInfoContainer = ({isMe, userInfo}: Props) => {
   const navigation = useNavigation<any>();
-  const [image, setImage] = useState<any>();
+  const [follow, setFollow] = useState<boolean>(false);
 
-  const handlePickImages = async () => {
-    await launchImageLibrary({
-      mediaType: 'mixed',
-      quality: 1,
-      selectionLimit: 10,
-    })
-      .then(async images => {
-        setImage(images.assets);
-      })
-      .catch(error => {
-        console.log('hhh', error);
-      });
+  const handlePressFollow = () => {
+    setFollow(!follow);
   };
 
   return (
     <View>
       <Container>
-        <UserProfileImage onPress={handlePickImages}>
-          <ProfileImage source={require('assets/images/dog.jpeg')} />
-          <PlusImage source={require('assets/images/plus.png')} />
+        <UserProfileImage>
+          <ProfileImage
+            source={
+              typeof userInfo?.profileImage !== 'undefined' &&
+              userInfo?.profileImage
+            }
+          />
+          {isMe ? (
+            <PlusImage source={require('assets/images/plus.png')} />
+          ) : (
+            <></>
+          )}
         </UserProfileImage>
         <UserFollowerInfoContianer>
           <UserFollowerInfo>
-            <CustomText fontWeight="bold">18</CustomText>
+            <CustomText fontWeight="bold">{userInfo?.postNum}</CustomText>
             <CustomText>게시물</CustomText>
           </UserFollowerInfo>
           <UserFollowerInfo
             onPress={() => {
               navigation.navigate('UserFollowListScreen');
             }}>
-            <CustomText fontWeight="bold">162</CustomText>
+            <CustomText fontWeight="bold">
+              {typeof userInfo?.followerNum !== 'undefined' && follow ? (
+                <>{userInfo?.followerNum + 1}</>
+              ) : (
+                <>{userInfo?.followerNum}</>
+              )}
+            </CustomText>
             <CustomText>팔로워</CustomText>
           </UserFollowerInfo>
           <UserFollowerInfo>
-            <CustomText fontWeight="bold">124</CustomText>
+            <CustomText fontWeight="bold">{userInfo?.followingNum}</CustomText>
             <CustomText>팔로잉</CustomText>
           </UserFollowerInfo>
         </UserFollowerInfoContianer>
       </Container>
       <Container>
-        <EditBtn>
-          <Text>프로필 편집</Text>
-        </EditBtn>
-        <AddUserBtn>
-          <Image
-            source={require('assets/images/remove-user.png')}
-            style={{width: 20, height: 20}}
-          />
-        </AddUserBtn>
+        {isMe ? (
+          <>
+            <EditBtn>
+              <Text>프로필 편집</Text>
+            </EditBtn>
+            <AddUserBtn>
+              <Image
+                source={require('assets/images/remove-user.png')}
+                style={{width: 20, height: 20}}
+              />
+            </AddUserBtn>
+          </>
+        ) : (
+          <>
+            <FollowBtn onPress={handlePressFollow} follow={follow}>
+              <FollowText follow={follow}>팔로우</FollowText>
+            </FollowBtn>
+            <EditBtn>
+              <Text>메시지</Text>
+            </EditBtn>
+          </>
+        )}
       </Container>
     </View>
   );
@@ -111,6 +134,7 @@ const EditBtn = styled.TouchableOpacity`
   flex: 1;
   align-items: center;
   padding: 7px 0 7px 0;
+  margin-right: 5px;
 `;
 
 const AddUserBtn = styled.TouchableOpacity`
@@ -119,6 +143,26 @@ const AddUserBtn = styled.TouchableOpacity`
   align-items: center;
   padding: 5px 5px 5px 5px;
   margin: 0 5px 0 5px;
+`;
+
+const FollowBtn = styled.TouchableOpacity<{follow: boolean}>`
+  border-radius: 5px;
+  flex: 1;
+  align-items: center;
+  padding: 7px 0 7px 0;
+  margin-right: 5px;
+  ${props =>
+    props.follow
+      ? css`
+          background-color: #d9d9d9;
+        `
+      : css`
+          background-color: #2d68c7;
+        `}
+`;
+
+const FollowText = styled.Text<{follow: boolean}>`
+  color: ${props => (props.follow ? '#76c057' : 'white')};
 `;
 
 export default UserInfoContainer;

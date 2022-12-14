@@ -7,7 +7,6 @@ interface SmallBtnTypes {
   image: string;
   text: string;
 }
-console.log('git test');
 
 const SmallBtnItems: Array<SmallBtnTypes> = [
   {id: 1, image: imagePath.upload, text: '공유'},

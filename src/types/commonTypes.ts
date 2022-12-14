@@ -4,6 +4,9 @@ export type UserTypes = {
   id: number;
   name: string;
   profileImage: string;
+  postNum: number;
+  followerNum: number;
+  followingNum: number;
 };
 
 export type StoryTypes = {

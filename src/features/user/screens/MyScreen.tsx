@@ -11,6 +11,7 @@ import {BottomTabContext} from 'store/context/bottomTabContext';
 import UserStoryListContainer from '../container/UserStoryListContainer';
 import UserPostContainer from '../container/UserPostContainer';
 import UserMenuBottomSheet from '../container/UserMenuBottomSheet';
+import {userData} from 'assets/data/userData';
 
 const MyScreen = () => {
   const bottomTabContext = useContext(BottomTabContext);
@@ -47,7 +48,7 @@ const MyScreen = () => {
         </BtnContainer>
       </Header>
       <ScrollView>
-        <UserInfoContainer />
+        <UserInfoContainer userInfo={userData.find(item => item.id === 1)} />
         <UserStoryListContainer />
         <UserPostContainer />
       </ScrollView>
