@@ -9,6 +9,12 @@ export type UserTypes = {
   followingNum: number;
 };
 
+export type StoryHighlightTypes = {
+  id: number;
+  name: string;
+  storyImages: string[];
+};
+
 export type StoryTypes = {
   id: number;
   userInfo: UserTypes;

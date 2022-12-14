@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
 const Container = styled.KeyboardAvoidingView`
   flex: 1;
   justify-content: space-between;
+  background-color: white;
 `;
 
 const ImageStyle = styled.Image`
