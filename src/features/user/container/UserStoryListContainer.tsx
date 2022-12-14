@@ -15,7 +15,7 @@ const UserStoryListContainer = () => {
   return (
     <ScrollContainer horizontal>
       {StoryList.map((item: StoryListType) => (
-        <StoryContainer>
+        <StoryContainer key={item.id}>
           <HighlightImageContainer>
             <HighlightImage source={require('assets/images/tree.jpg')} />
           </HighlightImageContainer>

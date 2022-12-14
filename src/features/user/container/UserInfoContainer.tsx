@@ -1,9 +1,9 @@
 import {useNavigation} from '@react-navigation/native';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Image, Text, View} from 'react-native';
 import styled from 'styled-components/native';
 
 const UserInfoContainer = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
 
   return (
     <View>
@@ -19,7 +19,7 @@ const UserInfoContainer = () => {
           </UserFollowerInfo>
           <UserFollowerInfo
             onPress={() => {
-              navigation.navigate('UserFollowListScreen', {});
+              navigation.navigate('UserFollowListScreen');
             }}>
             <CustomText fontWeight="bold">162</CustomText>
             <CustomText>팔로워</CustomText>
