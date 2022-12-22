@@ -11,7 +11,6 @@ import BottomTabProvider from 'store/context/bottomTabContext';
 import Route from 'components/Route';
 import ContextProvider from './src/store/context/context';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {BottomSheetProvider} from '@gorhom/bottom-sheet/lib/typescript/contexts';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';

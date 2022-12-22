@@ -12,6 +12,7 @@ import UserStoryListContainer from '../container/UserStoryListContainer';
 import UserPostContainer from '../container/UserPostContainer';
 import UserMenuBottomSheet from '../container/UserMenuBottomSheet';
 import {userData} from 'assets/data/userData';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 const MyScreen = () => {
   const bottomTabContext = useContext(BottomTabContext);
@@ -19,6 +20,10 @@ const MyScreen = () => {
   const menuBottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['25%', '45%'], []);
   const menuSnapPoints = useMemo(() => ['25%', '70%'], []);
+
+  const handlePressAdd = async () => {
+    await launchImageLibrary({mediaType: 'mixed'});
+  };
 
   return (
     <Container>
@@ -35,7 +40,7 @@ const MyScreen = () => {
           />
         </User>
         <BtnContainer>
-          <Btn>
+          <Btn onPress={handlePressAdd}>
             <Icon source={require('assets/images/more-2.png')} />
           </Btn>
           <Btn

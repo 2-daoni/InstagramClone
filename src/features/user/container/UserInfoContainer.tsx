@@ -1,6 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {useEffect, useState} from 'react';
 import {Image, Text, View} from 'react-native';
+import {launchImageLibrary} from 'react-native-image-picker';
 import styled, {css} from 'styled-components/native';
 import {UserTypes} from 'types/commonTypes';
 
@@ -17,6 +18,12 @@ const UserInfoContainer = ({userInfo}: Props) => {
     setFollow(!follow);
   };
 
+  const handlePressAddStory = async () => {
+    if (isMe) {
+      await launchImageLibrary({mediaType: 'photo'});
+    }
+  };
+
   useEffect(() => {
     if (userInfo?.id === 1) {
       setIsMe(true);
@@ -28,7 +35,7 @@ const UserInfoContainer = ({userInfo}: Props) => {
   return (
     <View>
       <Container>
-        <UserProfileImage>
+        <UserProfileImage onPress={handlePressAddStory}>
           <ProfileImage
             source={
               typeof userInfo?.profileImage !== 'undefined' &&

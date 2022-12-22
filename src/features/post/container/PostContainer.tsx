@@ -6,7 +6,7 @@ import BottomSheet, {
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import {useMemo, useRef, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import MoreBottomContainer from '../../home/container/MoreBottomContainer';
 import PostHeader from '../component/PostHeader';
@@ -54,6 +54,7 @@ const PostContainer = () => {
       </>
     );
   };
+
   return (
     <ListContainer>
       <FlatList
