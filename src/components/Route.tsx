@@ -9,7 +9,7 @@ import {BottomTabContext} from 'store/context/bottomTabContext';
 import {ScreenList} from 'types/ScreenTypes';
 import HomeScreen from 'features/home/screens/HomeScreen';
 import StoryScreen from 'features/story/screens/StoryScreen';
-import FindScreen from 'features/find/screens/FindScreen';
+import SearchScreen from 'features/search/screens/SearchScreen';
 import ShortsScreen from 'features/shorts/screens/ShortsScreen';
 import ShopScreen from 'features/shop/screens/ShopScreen';
 import MyScreen from 'features/user/screens/MyScreen';
@@ -105,8 +105,8 @@ const Route = () => {
           }}
         />
         <Tab.Screen
-          name="FindScreen"
-          component={FindScreen}
+          name="SearchScreen"
+          component={SearchScreen}
           options={{
             tabBarIcon: ({color, size}) => (
               <IconStyle source={require('assets/images/search.png')} />

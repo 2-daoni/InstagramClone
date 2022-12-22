@@ -1,6 +1,8 @@
 import {useNavigation} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {useContext, useEffect} from 'react';
 import {TouchableOpacity} from 'react-native';
+import {BottomTabContext} from 'store/context/bottomTabContext';
 import styled from 'styled-components/native';
 import {PostTypes} from 'types/commonTypes';
 
@@ -12,6 +14,9 @@ const PostHeader = ({
   bottomSheetRef: any;
 }) => {
   const navigation = useNavigation<StackNavigationProp<any>>();
+
+  const bottomTabContext = useContext(BottomTabContext);
+
   const handleShowMore = () => {
     bottomSheetRef.current?.snapToIndex(1);
   };
@@ -30,10 +35,7 @@ const PostHeader = ({
           <ProfileImage source={items.userInfo.profileImage} />
           <CustomText>{items?.userInfo?.name}</CustomText>
         </ProfileContainer>
-        <TouchableOpacity
-          onPress={() => {
-            handleShowMore();
-          }}>
+        <TouchableOpacity onPress={handleShowMore}>
           <ImageStyle source={require('assets/images/more.png')} />
         </TouchableOpacity>
       </PostHeaderContainer>
