@@ -1,3 +1,5 @@
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import {Text} from 'react-native';
 import styled from 'styled-components/native';
 
@@ -12,10 +14,20 @@ const StoryList: Array<StoryListType> = [
 ];
 
 const UserStoryListContainer = () => {
+  const navigation = useNavigation<StackNavigationProp<any>>();
+
+  const handlePressShowStory = (id: number) => {
+    navigation.navigate('StoryScreen');
+  };
+
   return (
     <ScrollContainer horizontal>
       {StoryList.map((item: StoryListType) => (
-        <StoryContainer key={item.id}>
+        <StoryContainer
+          key={item.id}
+          onPress={() => {
+            handlePressShowStory(item.id);
+          }}>
           <HighlightImageContainer>
             <HighlightImage source={require('assets/images/tree.jpg')} />
           </HighlightImageContainer>

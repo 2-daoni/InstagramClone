@@ -1,21 +1,54 @@
 import {StoryTypes} from 'types/commonTypes';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import styled from 'styled-components/native';
-import {useContext} from 'react';
+import {useContext, useState} from 'react';
 import {Context} from 'store/context/context';
 import {StyleSheet} from 'react-native';
+import {userData} from 'assets/data/userData';
+import {launchImageLibrary} from 'react-native-image-picker';
+import styled from 'styled-components/native';
 
 const Header = ({storyItems}: any) => {
   const navigation = useNavigation<StackNavigationProp<any>>();
   const showContext = useContext(Context);
 
+  const [MeStory, setMeStory] = useState<boolean>(false);
+
+  const Me = userData.find(item => item.id === 1);
+
   const handleShowStory = (id: number) => {
     showContext.addShowStory(id);
   };
 
+  const handlePressMyStory = async () => {
+    if (!MeStory) {
+      const result = await launchImageLibrary({mediaType: 'mixed'});
+      if (result.assets) {
+        setMeStory(true);
+      } else if (result.didCancel) {
+        setMeStory(false);
+      }
+    } else {
+      navigation.navigate('StoryScreen');
+    }
+  };
+
+  const getPlusImg = () => {
+    if (!MeStory) {
+      return <PlusImage source={require('assets/images/plus.png')} />;
+    } else return;
+  };
+
   return (
     <Container>
+      <StoryItem onPress={handlePressMyStory}>
+        <StoryImage
+          source={require('assets/images/dog.jpeg')}
+          style={MeStory ? styles.isShow : {borderWidth: 0}}
+        />
+        <UserName>{Me?.name}</UserName>
+        {getPlusImg()}
+      </StoryItem>
       {storyItems.map((item: StoryTypes) => (
         <StoryItem
           key={item.id}
@@ -44,7 +77,7 @@ const Header = ({storyItems}: any) => {
 
 const styles = StyleSheet.create({
   isShow: {
-    borderColor: '#d9d9d9',
+    borderColor: '#cbcbcb',
   },
   isNotShow: {
     borderColor: 'red',
@@ -88,6 +121,15 @@ const StoryImage = styled.Image`
 
 const UserName = styled.Text`
   margin: 3px 0 0 0;
+`;
+
+const PlusImage = styled.Image`
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: -5px;
+  top: 30px;
+  border-radius: 15px;
 `;
 
 export default Header;

@@ -1,10 +1,15 @@
+import {launchImageLibrary} from 'react-native-image-picker';
 import styled from 'styled-components/native';
 
 const HomeHeader = () => {
+  const handlePressAdd = async () => {
+    await launchImageLibrary({mediaType: 'mixed'});
+  };
+
   return (
     <Container>
       <Title>Instagram</Title>
-      <IconContainer>
+      <IconContainer onPress={handlePressAdd}>
         <Icon source={require('assets/images/more-2.png')} />
       </IconContainer>
     </Container>
@@ -22,7 +27,7 @@ const Title = styled.Text`
   font-weight: bold;
 `;
 
-const IconContainer = styled.View`
+const IconContainer = styled.TouchableOpacity`
   flex-direction: row;
 `;
 

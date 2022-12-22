@@ -90,7 +90,9 @@ const Route = () => {
       <Tab.Navigator
         screenOptions={
           bottomTabContext.showBottom
-            ? {...tabBarOptions}
+            ? {
+                ...tabBarOptions,
+              }
             : {...tabBarOptions, tabBarStyle: {display: 'none'}}
         }>
         <Tab.Screen
