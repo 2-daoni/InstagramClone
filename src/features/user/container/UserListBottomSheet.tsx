@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
 
 const Container = styled.View`
   width: 100%;
-  background-color: #e3e3e3;
+  background-color: #efefef;
   height: 100%;
 `;
 
@@ -67,9 +67,9 @@ const UserList = styled.View<{currentUser?: boolean}>`
   justify-content: space-between;
   align-items: center;
   border-bottom-width: 1px;
-  border-color: #c6c6c6;
+  border-color: #d8d8d8;
   padding: 10px 10px 10px 10px;
-  background-color: #e3e3e3;
+  background-color: #efefef;
   ${props =>
     props.currentUser &&
     css`
@@ -86,7 +86,7 @@ const UserImage = styled.Image`
 
 const PlusImageContainer = styled.View`
   border-width: 1px;
-  border-color: #c6c6c6;
+  border-color: #d8d8d8;
   width: 50px;
   height: 50px;
   border-radius: 25px;
@@ -113,7 +113,7 @@ const CheckImg = styled.Image`
 const AddUser = styled.View`
   padding: 10px 10px 10px 10px;
   min-height: 50px;
-  background-color: #e3e3e3;
+  background-color: #efefef;
   flex-direction: row;
   align-items: center;
 `;

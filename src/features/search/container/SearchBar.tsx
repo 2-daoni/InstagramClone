@@ -24,7 +24,7 @@ const SearchBar = () => {
     //   }
     return (
       <InputStyle
-        isSearch={isSearch}
+        // isSearch={isSearch}
         ref={inputRef}
         autoCapitalize="none"
         placeholder="검색"
@@ -44,7 +44,7 @@ const SearchBar = () => {
   };
 
   return (
-    <Container onPress={handlePressSearchBar}>
+    <Container>
       <InputContainerStyle isSearch={isSearch}>
         <ImageStyle source={require('assets/images/search.png')} />
         {getTextInput()}
@@ -77,7 +77,7 @@ const InputContainerStyle = styled.View<{isSearch: boolean}>`
   width: ${props => (props.isSearch ? '90%' : '100%')};
 `;
 
-const InputStyle = styled.TextInput<{isSearch: boolean}>`
+const InputStyle = styled.TextInput<{isSearch?: boolean}>`
   height: 30px;
   width: 80%;
   opacity: ${props => (props.isSearch ? 1 : 0)};

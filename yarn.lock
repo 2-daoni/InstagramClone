@@ -1608,6 +1608,11 @@
   "resolved" "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.11.tgz"
   "version" "7.0.11"
 
+"@types/lodash@^4.14.191":
+  "integrity" "sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ=="
+  "resolved" "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.191.tgz"
+  "version" "4.14.191"
+
 "@types/node@*":
   "integrity" "sha512-KJ021B1nlQUBLopzZmPBVuGU9un7WJd/W4ya7Ih02B4Uwky5Nja0yGYav2EfYIk0RR2Q9oVhf60S2XR1BCWJ2g=="
   "resolved" "https://registry.npmjs.org/@types/node/-/node-18.11.11.tgz"
