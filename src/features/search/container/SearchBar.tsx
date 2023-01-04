@@ -1,107 +1,72 @@
-import {useRef, useState} from 'react';
-import {Keyboard, Text, TextInput, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
 import styled from 'styled-components/native';
+import _ from 'lodash';
+import {postData} from 'assets/data/postData';
+import {Keyboard, Text, TouchableOpacity} from 'react-native';
+import SearchResult from './SearchResult';
+import {PostTypes} from 'types/commonTypes';
 
 const SearchBar = () => {
-  const [isSearch, setIsSearch] = useState<boolean>(false);
-  const inputRef = useRef<TextInput>(null);
+  const [posts, setPosts] = useState<Array<PostTypes>>([]);
 
-  const handleChangeText = (value: string) => {
-    console.log(value);
-  };
-
-  const handlePressSearchBar = () => {
-    setIsSearch(true);
-    if (inputRef.current !== null) {
-      inputRef.current.focus();
-    }
-  };
-
-  const getTextInput = () => {
-    // if (isSearch) {
-    //   if (inputRef.current !== null) {
-    //     inputRef.current.focus();
-    //   }
-    return (
-      <InputStyle
-        // isSearch={isSearch}
-        ref={inputRef}
-        autoCapitalize="none"
-        placeholder="검색"
-        placeholderTextColor="#d9d9d9"
-        onChangeText={(e: any) => {
-          handleChangeText(e);
-        }}
-      />
-    );
-    // } else {
-    //   return (
-    //     <TextContainerStyle>
-    //       <TextStyle>검색</TextStyle>
-    //     </TextContainerStyle>
-    //   );
-    // }
-  };
+  const handleChangeValue = _.debounce(
+    (value: string) => {
+      if (value !== '') {
+        const contents = postData
+          .map(item => item.postContent)
+          .map(item => item.includes(value));
+        let id = contents.indexOf(true);
+        const itemsId = [];
+        if (id !== -1) {
+          itemsId.push(id);
+          id = contents.indexOf(true, id + 1);
+          console.log('id', id);
+          itemsId.map((id: number) =>
+            setPosts(postData.filter(item => item.id === id + 1)),
+          );
+        }
+      } else {
+        setPosts([]);
+      }
+    },
+    300,
+    {leading: true},
+  );
 
   return (
     <Container>
-      <InputContainerStyle isSearch={isSearch}>
-        <ImageStyle source={require('assets/images/search.png')} />
-        {getTextInput()}
-      </InputContainerStyle>
-      {isSearch && (
-        <CancelStyle
-          onPress={() => {
-            setIsSearch(false);
-            Keyboard.dismiss();
-          }}>
+      <SearchContainer>
+        <InputStyle
+          onChangeText={e => {
+            handleChangeValue(e);
+          }}
+        />
+        <TouchableOpacity onPress={Keyboard.dismiss}>
           <Text>취소</Text>
-        </CancelStyle>
-      )}
+        </TouchableOpacity>
+      </SearchContainer>
+      <SearchResult posts={posts} />
     </Container>
   );
 };
 
-const Container = styled.TouchableOpacity`
-  flex-direction: row;
-  align-items: center;
-  width: 90%;
-  margin: 60px auto 0;
-`;
-
-const InputContainerStyle = styled.View<{isSearch: boolean}>`
-  background-color: #b4b4b4;
-  flex-direction: row;
-  align-items: center;
-  border-radius: 7px;
-  width: ${props => (props.isSearch ? '90%' : '100%')};
-`;
-
-const InputStyle = styled.TextInput<{isSearch?: boolean}>`
-  height: 30px;
-  width: 80%;
-  opacity: ${props => (props.isSearch ? 1 : 0)};
-`;
-
-const ImageStyle = styled.Image`
-  width: 15px;
-  height: 15px;
-  tint-color: #d9d9d9;
-  margin: 0 5px 0 10px;
-`;
-
-const TextContainerStyle = styled.View`
-  height: 30px;
-  justify-content: center;
-`;
-
-const TextStyle = styled.Text`
-  color: #d9d9d9;
-`;
-
-const CancelStyle = styled.TouchableOpacity`
-  align-items: center;
-  width: 40px;
-`;
-
 export default SearchBar;
+
+const Container = styled.View`
+  padding: 30px 10px 0 10px;
+`;
+
+const SearchContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15px;
+`;
+
+const InputStyle = styled.TextInput`
+  width: 90%;
+  background-color: #d9d9d9;
+  margin: 0 auto;
+  height: 25px;
+  border-radius: 5px;
+  padding-left: 10px;
+`;
